@@ -66,13 +66,13 @@ namespace ContaCorrente
             ContaCorrente contaUm = new ContaCorrente();
             contaUm.numeroIndentificacao = 1;
             contaUm.titular = "Tiago";
+            contaUm.saldo = 1000;
 
             ContaCorrente contaDois = new ContaCorrente();
             contaDois.numeroIndentificacao = 2;
             contaDois.titular = "Rech";
-            contaDois.saldo = 1234;
+            contaDois.saldo = 12000;
 
-            decimal saldo2 = 12000;
 
 
             while (true)
