@@ -1,5 +1,7 @@
 namespace ContaCorrente
 {
+    
+
     class ContaCorrente
     {
         public int numeroIndentificacao;

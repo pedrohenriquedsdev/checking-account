@@ -2,7 +2,103 @@
 
 namespace ContaCorrente
 {
+    class TelaPrincipal //Aprensentação e Interface com o Usuário
+    {
+        public string? ApresentarOpcoesDoMenu(ContaCorrente contaAcessada)
+        {
+            Console.Clear();
 
+            Console.WriteLine("MENU DE OPÇÕES");
+
+            Console.WriteLine("==========================");
+            Console.WriteLine($"Conta corrente #{contaAcessada.numeroIndentificacao} de {contaAcessada.titular}");
+            Console.WriteLine("==========================");
+            Console.WriteLine("1 - Sacar");
+            Console.WriteLine("2 - Depositar");
+            Console.WriteLine("3 - Transferência");
+            Console.WriteLine("4 - Consultar Saldo");
+            Console.WriteLine("S - Sair");
+            string? opcaoMenu = Console.ReadLine()?.ToUpper();
+
+            return opcaoMenu;
+        }
+
+        public void ApresentarOperacaoDeSaque(ContaCorrente contaAcessada)
+        {
+            Console.WriteLine("-------------------------------------");
+            Console.Write("Digite o valor que deseja sacar (R$): ");
+            decimal valorSaque = Convert.ToDecimal(Console.ReadLine());
+
+            bool conseguiuSacar = contaAcessada.Sacar(valorSaque);
+
+            if (!conseguiuSacar)
+            {
+                Console.WriteLine("---------------------------------------------");
+                Console.WriteLine("O valor do limite de débito foi ultrapassado!");
+            }
+
+            else
+            {
+                Console.WriteLine("---------------------------------------------");
+                Console.WriteLine("O valor foi sacado com sucesso!");
+            }
+
+            Console.WriteLine("-----------------------------------------");
+            Console.Write("Digite ENTER para continuar...");
+            Console.ReadLine();
+        }
+
+        public void ApresentarOperacaoDeDeposito(ContaCorrente contaAcessada)
+        {
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("Digite o valor que deseja depositar (R$): ");
+            decimal valorDeposito = Convert.ToDecimal(Console.ReadLine());
+
+            contaAcessada.Depositar(valorDeposito);
+
+            Console.WriteLine("-----------------------------------");
+            Console.WriteLine("O valor foi depositado com sucesso!");
+            Console.WriteLine("-----------------------------------");
+            Console.Write("Digite ENTER para continuar");
+            Console.ReadLine();
+        }
+
+        public void ApresentarOperacaoDeTransferencia(ContaCorrente contaAcessada, ContaCorrente contaDestino)
+        {
+            Console.WriteLine("------------------------------------------");
+            Console.Write("Digite o valor que deseja transferir (R$): ");
+            decimal valorTransferencia = Convert.ToDecimal(Console.ReadLine());
+
+            bool conseguiuTransferir = contaAcessada.TransferirPara(contaDestino, valorTransferencia);
+
+            if (!conseguiuTransferir)
+            {
+                Console.WriteLine("---------------------------------------------");
+                Console.WriteLine($"Não foi possível transferir o valor de R${valorTransferencia}");
+            }
+
+            else
+            {
+                Console.WriteLine("---------------------------------------------");
+                Console.WriteLine($"O valor de R${valorTransferencia} foi transferido com sucesso!");
+            }
+
+            Console.WriteLine("------------------------------------------");
+            Console.Write("Digite ENTER para continuar...");
+            Console.ReadLine();
+        }
+
+        public void ApresentarOperacaoObterSaldo(ContaCorrente contaAcessada)
+        {
+            decimal saldo = contaAcessada.ObterSaldo();
+
+            Console.WriteLine("------------------------------------------");
+            Console.WriteLine($"O saldo da conta é de: R${saldo}");
+            Console.WriteLine("------------------------------------------");
+            Console.Write("Digite ENTER para continuar...");
+            Console.ReadLine();
+        }
+    }
     internal class Program
     {
         static void Main(string[] args)
@@ -20,101 +116,27 @@ namespace ContaCorrente
             contaDois.saldo = 12000;
             contaDois.limiteDebito = 1200;
 
+            TelaPrincipal tela = new TelaPrincipal();
+            ContaCorrente contaAcessada = contaUm; //passagem por referência (literalmente iguais)
+
             while (true)
             {
-                Console.Clear();
-
-                Console.WriteLine("MENU DE OPÇÕES");
-
-                Console.WriteLine("==========================");
-                Console.WriteLine($"Conta corrente #{contaUm.numeroIndentificacao} de {contaUm.titular}");
-                Console.WriteLine("==========================");
-                Console.WriteLine("1 - Sacar");
-                Console.WriteLine("2 - Depositar");
-                Console.WriteLine("3 - Transferência");
-                Console.WriteLine("4 - Consultar Saldo");
-                Console.WriteLine("S - Sair");
-                string? opcaoMenu = Console.ReadLine()?.ToUpper();
-                Console.WriteLine("==========================");
+                string? opcaoMenu = tela.ApresentarOpcoesDoMenu(contaAcessada);
 
                 if (opcaoMenu == "S")
                     break;
 
                 if (opcaoMenu == "1") //sacar
-                {
-                    Console.WriteLine("-------------------------------------");
-                    Console.Write("Digite o valor que deseja sacar (R$): ");
-                    decimal valorSaque = Convert.ToDecimal(Console.ReadLine());
-
-                    bool conseguiuSacar = contaUm.Sacar(valorSaque);
-
-                    if (!conseguiuSacar)
-                    {
-                        Console.WriteLine("---------------------------------------------");
-                        Console.WriteLine("O valor do limite de débito foi ultrapassado!");
-                    }
-
-                    else
-                    {
-                        Console.WriteLine("---------------------------------------------");
-                        Console.WriteLine("O valor foi sacado com sucesso!");
-                    }
-
-                    Console.WriteLine("-----------------------------------------");
-                    Console.Write("Digite ENTER para continuar...");
-                    Console.ReadLine();
-                }
+                    tela.ApresentarOperacaoDeSaque(contaAcessada);
 
                 else if (opcaoMenu == "2") //depositar
-                {
-                    Console.WriteLine("------------------------------------------");
-                    Console.Write("Digite o valor que deseja depositar (R$): ");
-                    decimal valorDeposito = Convert.ToDecimal(Console.ReadLine());
-
-                    contaUm.Depositar(valorDeposito);
-
-                    Console.WriteLine("-----------------------------------------");
-                    Console.WriteLine("O valor foi depositado com sucesso!");
-                    Console.WriteLine("-----------------------------------------");
-                    Console.Write("Digite ENTER para continuar...");
-                    Console.ReadLine();
-                }
+                    tela.ApresentarOperacaoDeDeposito(contaAcessada);
 
                 else if (opcaoMenu == "3") //transferir
-                {
-                    Console.WriteLine("------------------------------------------");
-                    Console.Write("Digite o valor que deseja transferir (R$): ");
-                    decimal valorTransferencia = Convert.ToDecimal(Console.ReadLine());
-
-                    bool conseguiuTransferir = contaUm.TransferirPara(contaDois, valorTransferencia);
-
-                    if (!conseguiuTransferir)
-                    {
-                        Console.WriteLine("---------------------------------------------");
-                        Console.WriteLine($"Não foi possível transferir o valor de R${valorTransferencia}");
-                    }
-
-                    else
-                    {
-                        Console.WriteLine("---------------------------------------------");
-                        Console.WriteLine($"O valor de R${valorTransferencia} foi transferido com sucesso!");
-                    }
-
-                    Console.WriteLine("------------------------------------------");
-                    Console.Write("Digite ENTER para continuar...");
-                    Console.ReadLine();
-                }
+                    tela.ApresentarOperacaoDeTransferencia(contaAcessada, contaDestino: contaDois); //assim contaDestino é preenchido com contaDois
 
                 else if (opcaoMenu == "4") //consultar
-                {
-                    decimal saldo = contaUm.ObterSaldo();
-
-                    Console.WriteLine("------------------------------------------");
-                    Console.WriteLine($"O saldo da conta é de: R${saldo}");
-                    Console.WriteLine("------------------------------------------");
-                    Console.Write("Digite ENTER para continuar...");
-                    Console.ReadLine();
-                }
+                    tela.ApresentarOperacaoObterSaldo(contaAcessada);
             }
 
 
