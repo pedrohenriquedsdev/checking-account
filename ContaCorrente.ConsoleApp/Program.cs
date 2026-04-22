@@ -61,23 +61,59 @@ namespace ContaCorrente
                     }
 
                     Console.WriteLine("-----------------------------------------");
-                    Console.WriteLine("Digite ENTER para continuar...");
+                    Console.Write("Digite ENTER para continuar...");
                     Console.ReadLine();
                 }
 
                 else if (opcaoMenu == "2") //depositar
                 {
-                    contaUm.Depositar();
+                    Console.WriteLine("------------------------------------------");
+                    Console.Write("Digite o valor que deseja depositar (R$): ");
+                    decimal valorDeposito = Convert.ToDecimal(Console.ReadLine());
+
+                    contaUm.Depositar(valorDeposito);
+
+                    Console.WriteLine("-----------------------------------------");
+                    Console.WriteLine("O valor foi depositado com sucesso!");
+                    Console.WriteLine("-----------------------------------------");
+                    Console.Write("Digite ENTER para continuar...");
+                    Console.ReadLine();
                 }
 
                 else if (opcaoMenu == "3") //transferir
                 {
-                    contaUm.TransferirPara(contaDois);
+                    Console.WriteLine("------------------------------------------");
+                    Console.Write("Digite o valor que deseja transferir (R$): ");
+                    decimal valorTransferencia = Convert.ToDecimal(Console.ReadLine());
+
+                    bool conseguiuTransferir = contaUm.TransferirPara(contaDois, valorTransferencia);
+
+                    if (!conseguiuTransferir)
+                    {
+                        Console.WriteLine("---------------------------------------------");
+                        Console.WriteLine($"Não foi possível transferir o valor de R${valorTransferencia}");
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("---------------------------------------------");
+                        Console.WriteLine($"O valor de R${valorTransferencia} foi transferido com sucesso!");
+                    }
+
+                    Console.WriteLine("------------------------------------------");
+                    Console.Write("Digite ENTER para continuar...");
+                    Console.ReadLine();
                 }
 
                 else if (opcaoMenu == "4") //consultar
                 {
-                    contaUm.ObterSaldo();
+                    decimal saldo = contaUm.ObterSaldo();
+
+                    Console.WriteLine("------------------------------------------");
+                    Console.WriteLine($"O saldo da conta é de: R${saldo}");
+                    Console.WriteLine("------------------------------------------");
+                    Console.Write("Digite ENTER para continuar...");
+                    Console.ReadLine();
                 }
             }
 

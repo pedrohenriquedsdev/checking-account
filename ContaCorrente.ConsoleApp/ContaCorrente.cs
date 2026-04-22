@@ -17,32 +17,26 @@ namespace ContaCorrente
             return true;
         }
 
-        public void Depositar()
+        public void Depositar(decimal valorDeposito)
         {
-            Console.Write("Digite o valor que deseja depositar (R$): ");
-            decimal valorDeposito = Convert.ToDecimal(Console.ReadLine());
-
             saldo += valorDeposito;
         }
 
-        public decimal TransferirPara(ContaCorrente contaDestino)
+        public bool TransferirPara(ContaCorrente contaDestino, decimal valorTransferencia)
         {
-            Console.Write("Digite o valor que deseja transferir (R$): ");
-            decimal valorTransferencia = Convert.ToDecimal(Console.ReadLine());
+            bool conseguiuSacar = this.Sacar(valorTransferencia);
 
-            saldo -= valorTransferencia;
-            contaDestino.saldo += valorTransferencia;
+            if (!conseguiuSacar)
+                return false;
 
-            Console.WriteLine($"O valor de R${valorTransferencia} foi transferido com sucesso!");
-            Console.ReadLine();
+            contaDestino.Depositar(valorTransferencia);
 
-            return saldo;
+            return true;
         }
 
-        public void ObterSaldo()
+        public decimal ObterSaldo()
         {
-            Console.WriteLine($"O saldo da conta é de: R${saldo}");
-            Console.ReadLine();
+            return saldo;
         }
     }
 }
