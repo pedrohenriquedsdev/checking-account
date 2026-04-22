@@ -7,25 +7,14 @@ namespace ContaCorrente
         public decimal saldo;
         public decimal limiteDebito;
 
-        public void Sacar()
+        public bool Sacar(decimal valorSaque)
         {
-            Console.Write("Digite o valor que deseja sacar (R$): ");
-            decimal valorSaque = Convert.ToDecimal(Console.ReadLine());
+            if (valorSaque > saldo + limiteDebito)
+                return false;
 
-            if (saldo <= -limiteDebito)
-            {
-                Console.WriteLine("O valor do limite de débito já foi ultrapassado!");
-                Console.ReadLine();
-                return;
-            }
+            saldo -= valorSaque;
 
-            else
-            {
-                saldo -= valorSaque;
-
-                Console.WriteLine("O valor foi sacado com sucesso!");
-                Console.ReadLine();
-            }
+            return true;
         }
 
         public void Depositar()

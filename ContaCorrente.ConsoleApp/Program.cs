@@ -42,7 +42,27 @@ namespace ContaCorrente
 
                 if (opcaoMenu == "1") //sacar
                 {
-                    contaUm.Sacar();
+                    Console.WriteLine("-------------------------------------");
+                    Console.Write("Digite o valor que deseja sacar (R$): ");
+                    decimal valorSaque = Convert.ToDecimal(Console.ReadLine());
+
+                    bool conseguiuSacar = contaUm.Sacar(valorSaque);
+
+                    if (!conseguiuSacar)
+                    {
+                        Console.WriteLine("---------------------------------------------");
+                        Console.WriteLine("O valor do limite de débito foi ultrapassado!");
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("---------------------------------------------");
+                        Console.WriteLine("O valor foi sacado com sucesso!");
+                    }
+
+                    Console.WriteLine("-----------------------------------------");
+                    Console.WriteLine("Digite ENTER para continuar...");
+                    Console.ReadLine();
                 }
 
                 else if (opcaoMenu == "2") //depositar
