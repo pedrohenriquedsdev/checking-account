@@ -2,62 +2,6 @@
 
 namespace ContaCorrente
 {
-    class ContaCorrente
-    {
-        public int numeroIndentificacao;
-        public string titular;
-        public decimal saldo;
-        public decimal limiteDebito;
-
-        public void Sacar()
-        {
-            Console.Write("Digite o valor que deseja sacar (R$): ");
-            decimal valorSaque = Convert.ToDecimal(Console.ReadLine());
-
-            if (saldo <= -limiteDebito)
-            {
-                Console.WriteLine("O valor do limite de débito já foi ultrapassado!");
-                Console.ReadLine();
-                return;
-            }
-
-            else
-            {
-                saldo -= valorSaque;
-
-                Console.WriteLine("O valor foi sacado com sucesso!");
-                Console.ReadLine();
-            }
-        }
-
-        public void Depositar()
-        {
-            Console.Write("Digite o valor que deseja depositar (R$): ");
-            decimal valorDeposito = Convert.ToDecimal(Console.ReadLine());
-
-            saldo += valorDeposito;
-        }
-
-        public decimal TransferirPara(ContaCorrente contaDestino)
-        {
-            Console.Write("Digite o valor que deseja transferir (R$): ");
-            decimal valorTransferencia = Convert.ToDecimal(Console.ReadLine());
-
-            saldo -= valorTransferencia;
-            contaDestino.saldo += valorTransferencia;
-
-            Console.WriteLine($"O valor de R${valorTransferencia} foi transferido com sucesso!");
-            Console.ReadLine();
-
-            return saldo;
-        }
-
-        public void ObterSaldo()
-        {
-            Console.WriteLine($"O saldo da conta é de: R${saldo}");
-            Console.ReadLine();
-        }
-    }
 
     internal class Program
     {
@@ -66,14 +10,14 @@ namespace ContaCorrente
             ContaCorrente contaUm = new ContaCorrente();
             contaUm.numeroIndentificacao = 1;
             contaUm.titular = "Tiago";
+            contaUm.saldo = 400;
+            contaUm.limiteDebito = 1200;
 
             ContaCorrente contaDois = new ContaCorrente();
             contaDois.numeroIndentificacao = 2;
             contaDois.titular = "Rech";
-            contaDois.saldo = 1234;
-
-            decimal saldo2 = 12000;
-
+            contaDois.saldo = 12000;
+            contaDois.limiteDebito = 1200;
 
             while (true)
             {
@@ -93,7 +37,7 @@ namespace ContaCorrente
                 Console.WriteLine("==========================");
 
                 if (opcaoMenu == "S")
-                    return;
+                    break;
 
                 if (opcaoMenu == "1") //sacar
                 {
